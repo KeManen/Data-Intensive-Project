@@ -1,8 +1,13 @@
 from logging import getLogger
 
+from application import application
 from logging_conf import setup_logging
 
-if __name__ == '__main__':
-    setup_logging()
-    _logger = getLogger("main")
-    _logger.info("Hello world")
+app = application
+setup_logging()
+_logger = getLogger("main.main")
+
+
+@app.get("/")
+async def root():
+    _logger.debug("Root called")
