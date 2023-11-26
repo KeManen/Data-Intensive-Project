@@ -1,9 +1,9 @@
 from logging import getLogger
 
 from uvicorn import run
-
 from logging_conf import setup_logging
 from routes import app
+
 
 if __name__ == '__main__':
     setup_logging()
