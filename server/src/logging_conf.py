@@ -78,6 +78,7 @@ def _build_logger(log_type: str):
 
 def setup_logging():
     _build_logger("main")
+    _build_logger("uvicorn")
     getLogger("main.logging").debug("Logging set up successfully")
 
 
