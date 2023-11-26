@@ -19,7 +19,7 @@
 # misc
 .DS_Store
 *.pem
-.package-lock
+package-lock
 
 # debug
 npm-debug.log*
