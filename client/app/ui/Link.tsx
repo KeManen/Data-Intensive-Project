@@ -1,7 +1,8 @@
 'use client';
 
+
 import NextLink from 'next/link'
-import { Link as MUILink } from '@mui/material';
+import { simpleTheme } from '@/app/ui/theme';
 
 type linkProps = {
     link: string,
@@ -9,11 +10,10 @@ type linkProps = {
 } 
 
 export default function Link(props: linkProps) {
+
     return (
-        <NextLink href={props.link} passHref>
-            <MUILink variant="body2">
-                {props.content}
-            </MUILink>
+        <NextLink href={props.link}>
+            <p style={{color: simpleTheme.primary.main, textDecoration: 'underline'}}>{props.content}</p>
         </NextLink>
     );
 }
