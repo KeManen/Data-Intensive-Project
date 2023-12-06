@@ -54,6 +54,7 @@ export default function Page() {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
+                        autoFocus
                         />
                         <TextField
                         margin="normal"
@@ -62,8 +63,7 @@ export default function Page() {
                         id="username"
                         label="Username"
                         name="username"
-                        autoComplete="username"
-                        autoFocus
+                        autoComplete="username"                        
                         />
                         <TextField
                         margin="normal"
