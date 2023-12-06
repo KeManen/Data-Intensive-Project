@@ -15,7 +15,7 @@ import { FormEvent } from 'react';
 
 /**
  * 
- * Login page, layout inspiration from https://github.com/mui/material-ui/blob/v5.14.20/docs/data/material/getting-started/templates/sign-in/SignIn.tsx
+ * Register page, layout inspiration from https://github.com/mui/material-ui/blob/v5.14.20/docs/data/material/getting-started/templates/sign-in/SignIn.tsx
  */
 
 export default function Page() {
@@ -25,7 +25,7 @@ export default function Page() {
  
         const formData = new FormData(event.currentTarget)
 
-        //TODO some login stuff
+        //TODO some register stuff
     }
 
     return (
@@ -43,9 +43,18 @@ export default function Page() {
                     }}
                     >
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Register
                     </Typography>
                     <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        />
                         <TextField
                         margin="normal"
                         required
@@ -66,17 +75,27 @@ export default function Page() {
                         id="password"
                         autoComplete="current-password"
                         />
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password-verify"
+                        label="Password again"
+                        type="password"
+                        id="password-verify"
+                        autoComplete="current-password"
+                        />
                         <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                         >
-                        Login
+                        Register
                         </Button>
                         <Grid container>
                         <Grid item>
-                            <Link link='/register' content='No Account? Register here' />
+                            <Link link="/login" content='Already Have an account? Login here'/>
                         </Grid>
                         </Grid>
                     </Box>
