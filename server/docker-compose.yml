@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+    python_server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - "8000:8000"
+        depends_on:
+            - mongo_eu
+        environment:
+            - host=0.0.0.0
+    mongo_eu:
+        image: mongodb/mongodb-community-server:6.0-ubi8
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=user
+            - MONGO_INITDB_ROOT_PASSWORD=pass
+        volumes:
+            - type: bind
+              source: ./data
+              target: /data/db
+
+networks:
+    network:
+        driver: bridge
