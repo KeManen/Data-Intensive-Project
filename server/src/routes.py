@@ -1,6 +1,8 @@
 from logging import getLogger
 
 from application import application
+from database.mongo_connection import test_db
+from models.test import Test
 
 _logger = getLogger("main.routes")
 app = application
@@ -9,17 +11,25 @@ app = application
 @app.get("/")
 async def root():
     _logger.debug("Root called")
+    return Test(message="Hello world aaaaaaa")
+
+
+@app.get("/dbtest")
+async def test_database():
+    await test_db()
 
 
 # User
 @app.get("/user/{user_id}")
 async def get_user(user_id: int):
-    raise NotImplementedError
+    _logger.debug("Root called")
+    return Test(message=f"Hello world {user_id}")
 
 
 @app.post("/user")
 async def post_user():
-    raise NotImplementedError
+    _logger.debug("User post called")
+    return Test(message="Hello world")
 
 
 @app.delete("/user/{user_id}")

@@ -12,16 +12,26 @@ services:
             - mongo_eu
         environment:
             - host=0.0.0.0
+        networks:
+            - outgoing
+            - internal
     mongo_eu:
         image: mongodb/mongodb-community-server:6.0-ubi8
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=user
-            - MONGO_INITDB_ROOT_PASSWORD=pass
+            - MONGODB_INITDB_ROOT_USERNAME=root
+            - MONGODB_INITDB_ROOT_PASSWORD=pass
+        ports:
+            - "27017:27017"
         volumes:
-            - type: bind
-              source: ./data
-              target: /data/db
+            - data:/data/db
+        networks:
+            - internal
+
+volumes:
+    data:
 
 networks:
-    network:
+    outgoing:
+        driver: bridge
+    internal:
         driver: bridge
