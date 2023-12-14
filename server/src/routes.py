@@ -1,7 +1,9 @@
 from logging import getLogger
 
 from application import application
-from database.mongo_connection import test_db
+from database.nosql import mongo_connection
+from database.sql import global_connection
+from database.sql import regional_connection
 from models.test import Test
 
 _logger = getLogger("main.routes")
@@ -11,12 +13,13 @@ app = application
 @app.get("/")
 async def root():
     _logger.debug("Root called")
-    return Test(message="Hello world aaaaaaa")
+    return Test(message="Hello world")
 
 
 @app.get("/dbtest")
 async def test_database():
-    await test_db()
+    mongo_connection.test_db()
+    global_connection.test_db()
 
 
 # User

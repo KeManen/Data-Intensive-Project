@@ -79,6 +79,7 @@ def _build_logger(log_type: str):
 def setup_logging():
     _build_logger("main")
     _build_logger("uvicorn")
+    _build_logger("sqlalchemy")
     getLogger("main.logging").debug("Logging set up successfully")
 
 
