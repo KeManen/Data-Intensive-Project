@@ -1,0 +1,8 @@
+{
+  "main_log_file": "server.log",
+  "main_log_stream": "stdout",
+  "main_log_level": "DEBUG",
+  "uvicorn_log_file": "server.log",
+  "uvicorn_log_stream": "stdout",
+  "uvicorn_log_level": "INFO"
+}

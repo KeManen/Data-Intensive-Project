@@ -19,6 +19,10 @@
 # misc
 .DS_Store
 *.pem
+<<<<<<< HEAD
+=======
+package-lock
+>>>>>>> d977466bbf7780ca56884d6d0ccf587b9ab9e5ba
 
 # debug
 npm-debug.log*
@@ -34,3 +38,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
+=======
+
+.idea/
+>>>>>>> d977466bbf7780ca56884d6d0ccf587b9ab9e5ba
