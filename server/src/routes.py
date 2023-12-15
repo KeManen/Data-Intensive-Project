@@ -18,8 +18,10 @@ async def root():
 
 @app.get("/dbtest")
 async def test_database():
+    _logger.debug("Testing all database connections:")
     mongo_connection.test_db()
     global_connection.test_db()
+    regional_connection.test_db()
 
 
 # User

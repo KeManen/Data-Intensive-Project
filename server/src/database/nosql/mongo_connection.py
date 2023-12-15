@@ -2,7 +2,7 @@ from logging import getLogger
 
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://root:pass@127.0.0.1:27017/")
+client = MongoClient("mongodb://root:pass@mongo_eu:27017/")
 _logger = getLogger("main.nosql.mongo_connection")
 
 

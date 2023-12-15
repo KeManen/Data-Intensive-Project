@@ -9,7 +9,7 @@ from models.global_models import GlobalModel, Currency, Region
 _logger = getLogger("main.sql.global_connection")
 
 _logger.debug("Creating global postgresql connection")
-connection_manager = ConnectionManager("postgresql://root:pass@127.0.0.1:5432/data_global", GlobalModel)
+connection_manager = ConnectionManager("postgresql://root:pass@data_global:5432/data_global", GlobalModel)
 
 
 def test_db():

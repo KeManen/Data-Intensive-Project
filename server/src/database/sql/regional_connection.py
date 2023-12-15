@@ -9,7 +9,7 @@ from models.regional_models import RegionalModel
 _logger = getLogger("main.sql.regional_connection")
 
 _logger.debug("Creating europe postgresql connection")
-connection_manager = ConnectionManager("postgresql://root:pass@127.0.0.1:5433/data_eu", RegionalModel)
+connection_manager = ConnectionManager("postgresql://root:pass@data_eu:5432/data_eu", RegionalModel)
 
 
 def test_db():
