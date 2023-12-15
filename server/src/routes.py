@@ -1,6 +1,10 @@
 from logging import getLogger
 
 from application import application
+from database.nosql import mongo_connection
+from database.sql import global_connection
+from database.sql import regional_connection
+from models.test import Test
 
 _logger = getLogger("main.routes")
 app = application
@@ -9,17 +13,28 @@ app = application
 @app.get("/")
 async def root():
     _logger.debug("Root called")
+    return Test(message="Hello world")
+
+
+@app.get("/dbtest")
+async def test_database():
+    _logger.debug("Testing all database connections:")
+    mongo_connection.test_db()
+    global_connection.test_db()
+    regional_connection.test_db()
 
 
 # User
 @app.get("/user/{user_id}")
 async def get_user(user_id: int):
-    raise NotImplementedError
+    _logger.debug("Root called")
+    return Test(message=f"Hello world {user_id}")
 
 
 @app.post("/user")
 async def post_user():
-    raise NotImplementedError
+    _logger.debug("User post called")
+    return Test(message="Hello world")
 
 
 @app.delete("/user/{user_id}")
