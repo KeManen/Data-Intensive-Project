@@ -13,7 +13,7 @@ import Copyright from '@/app/ui/copyright';
 import { useUser } from '@/app/ui/UserProvider';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { post, put } from '../api/restController';
+import { post } from '../api/restController';
 
 /**
  * 

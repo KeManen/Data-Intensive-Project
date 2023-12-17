@@ -1,11 +1,10 @@
 'use client'
 
-import {Box, Button, Card, Grid, InputBase, Link, List, ListItem, ListItemText, TextField, Typography, alpha, styled } from "@mui/material";
+import {Box, Button, Card, Grid, InputBase, TextField, Typography, alpha, styled } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
 import SearchIcon from '@mui/icons-material/Search';
 import { FormEvent, useEffect, useState } from "react";
 import { get, post } from './api/restController';
-import internal from "stream";
 import { useUser } from "./ui/UserProvider";
 
 const Search = styled('div')(({ theme }) => ({
@@ -27,17 +26,9 @@ type Song = {
 
 export default function Home() {
 	const [musicLibraryList, setMusicLibraryList] = useState<musicLibrary[]>([])
-	const [searchTerm, setSearchTerm] = useState('');
 	const [searchResults, setSearchResults] = useState<Song[]>([]);
 
   const { token } = useUser();
-
-	const testList: musicLibrary[] = [
-		{name: "Rock", id: 1}, 
-		{name: "Pop", id: 2},
-		{name: "Hip-hop", id: 3},
-		{name: "Rap", id: 4},
-	]
 
 	const getMusicLibrarys = async () => {
 		try {
@@ -136,7 +127,7 @@ export default function Home() {
 				<Card sx={{height: 700, padding: 2}}>
 					<Box sx={{maxWidth: 1300}}>
 						<Grid container spacing={2}>
-							{testList.map((library) => (
+							{musicLibraryList.map((library) => (
 								<Grid item xs={3} key={library.id}> 
 									<Button href={`/library/${library.id}`}>
 										<Card sx={{height: 100, width: 100, bgcolor: 'gray', padding: 1}}>
@@ -165,6 +156,9 @@ export default function Home() {
 							id="input-song-words"
 							name="inputSongWords"
 						/>
+						<Button
+							type="submit"
+						>Submit</Button>
 					</Box>
 				</Card>
 			</Masonry>
