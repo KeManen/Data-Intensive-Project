@@ -1,7 +1,7 @@
-from sqlalchemy import String, ForeignKey, LargeBinary, Table, Column
-from sqlalchemy.orm import declarative_base, DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, LargeBinary
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
-from models.common import DbModelBase
+from models.database.common import DbModelBase
 
 
 class RegionalModel(DbModelBase, DeclarativeBase):
