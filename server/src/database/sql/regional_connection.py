@@ -8,11 +8,15 @@ from models.regional_models import RegionalModel
 
 _logger = getLogger("main.sql.regional_connection")
 
-_logger.debug("Creating europe postgresql connection")
-connection_manager = ConnectionManager("postgresql://root:pass@data_eu:5432/data_eu", RegionalModel)
+_logger.debug("Creating regional postgresql connections")
+eu_connection_manager = ConnectionManager("postgresql://root:pass@data_eu:5432/data_eu", RegionalModel)
+us_connection_manager = ConnectionManager("postgresql://root:pass@data_us:5432/data_us", RegionalModel)
 
 
 def test_db():
-    with connection_manager.session() as session:
+    with eu_connection_manager.session() as session:
+        _logger.debug("Testing regional postgresql database")
+        _logger.debug("Test over")
+    with us_connection_manager.session() as session:
         _logger.debug("Testing regional postgresql database")
         _logger.debug("Test over")
