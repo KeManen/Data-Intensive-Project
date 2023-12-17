@@ -2,9 +2,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 
 from domain.authentication import validate_header
 
-from models.api.audio import AudioInfoData, ArtistInfoData, SongData, ListSong
-from models.database.global_models import GlobalSong
-from models.database.regional_models import Song
+from models.api.audio import SongData, ListSong
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
 
@@ -30,25 +28,6 @@ async def post_audio_data(audio_data:SongData, token:str):
 async def delete_audio_data(audio_data_name: str, token:str):
     user_login = validate_header(token)
     mongo_connection.remove_song(user_login.region_id, audio_data_name)
-
-#AudioInfos is out of scope for this prototype.
-async def get_audio_info(audio_data_name: str, token:str) -> AudioInfoData:
-    user_login = validate_header(token)
-    song = regional_connection.get_song(user_login.region_id, audio_data_name)
-    yield NotImplementedError
-
-
-async def post_audio_info(audio_data:AudioInfoData,token:str):
-    user_login = validate_header(token)
-    yield NotImplementedError
-
-
-async def delete_audio_info(audio_data_name: str, token:str):
-    user_login = validate_header(token)
-    globalSong = global_connection.get_relevant_song(audio_data_name, user_login.region.id)
-    global_connection.remove_song(globalSong)
-    yield NotImplementedError
-
 
 async def _post_song(region_id: int, song_data: SongData, user_id: int) -> int:
     global_connection.insert_song(song_data.name, region_id, True)

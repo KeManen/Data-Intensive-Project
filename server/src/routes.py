@@ -10,11 +10,9 @@ from database.sql import regional_connection
 from domain import authentication, duplication
 from domain.controllers import user_controller
 from domain.controllers import audio_controller
-from domain.controllers import audio_collection_controller
 from models.api.login import LoginData, LoginResponse, SignupData
 from models.api.user import UserData
-from models.api.audio import AudioInfoData, SongData, ListSong, DuplicatedSong
-from models.api.audio_collections import CollectionData, CollectionAudioInfoData
+from models.api.audio import SongData, ListSong, DuplicatedSong
 from models.test import Test
 
 _logger = getLogger("main.routes")
@@ -78,26 +76,7 @@ async def delete_user(user_name: int, token: Annotated[str | None, Header()] = N
     _logger.debug("User delete called for %d", user_name)
     return await user_controller.delete_user(user_name, token)
 
-# Audio info
-@app.get("/audio_info/{audio_info_id}")
-async def get_audio_info(audio_info: str, token: Annotated[str | None, Header()] = None) -> AudioInfoData:
-    _logger.debug("Get audio info called %d", audio_info)
-    return await audio_controller.get_audio_info(audio_info, token)
-
-
-@app.post("/audio_info")
-async def post_audio_info(audio_info: AudioInfoData, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Post audio info")
-    return await audio_controller.post_audio_info(audio_info, token)
-
-
-@app.delete("/audio_info/{audio_info_id}")
-async def delete_audio_info(audio_info: str, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Delete audio info called %d", audio_info)
-    return await audio_controller.delete_audio_info(audio_info, token)
-
 # Audio data
-
 @app.get("/audio_data_stream/{audio_data_name}")
 async def get_audio_data_stream(audio_data_id: str, token: Annotated[str | None, Header()] = None) -> StreamingResponse:
     _logger.debug("Get audio data stream called %d", audio_data_id)
@@ -118,37 +97,6 @@ async def post_audio_data(audio_data:SongData, token: Annotated[str | None, Head
 async def delete_audio_info(audio_data_name: str, token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Delete audio data %d", audio_data_name)
     return await audio_controller.delete_audio_data(audio_data_name, token)
-
-
-# Audio collection
-@app.get("/audio_collection/{audio_collection_name}")
-async def get_audio_collection(audio_collection_name: str, token: Annotated[str | None, Header()] = None) -> CollectionData:
-    _logger.debug("Get audio collection %d", audio_collection_name)
-    return await audio_collection_controller.get_audio_collection(audio_collection_name, token)
-
-@app.post("/audio_collection")
-async def post_audio_collection(audio_collection_data: CollectionData, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Post audio collection")
-    return await audio_collection_controller.post_audio_collection(audio_collection_data, token)
-
-
-@app.delete("/audio_collection/{audio_collection_name}")
-async def delete_audio_collection(audio_collection_name: str, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Get audio collection")
-    return await audio_collection_controller.delete_audio_collection(audio_collection_name, token)
-
-# Audio collection member
-@app.post("/audio_collection_member")
-async def post_audio_collection_member(audio_collection_member_data: CollectionAudioInfoData, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Post audio collection member")
-    return await audio_collection_controller.post_audio_collection_member(audio_collection_member_data, token)
-
-
-@app.delete("/audio_collection_member/{audio_collection_member_id}")
-async def delete_audio_collection_member(audio_collection_member_name: str, token: Annotated[str | None, Header()] = None) -> Response:
-    _logger.debug("Delete audio collection member %d", audio_collection_member_name)
-    return await audio_collection_controller.delete_audio_collection_member(audio_collection_member_name, token)
-
 
 @app.on_event("startup")
 async def init():
