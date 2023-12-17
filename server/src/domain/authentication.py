@@ -4,7 +4,7 @@ import secrets
 import bcrypt
 
 from database.sql.global_connection import get_user_login, create_user_login
-from models.global_models import UserLogin
+from models.database.global_models import UserLogin
 
 _tokens: {str, (UserLogin, datetime.datetime)} = {}
 
@@ -35,6 +35,11 @@ def login(user_name: str, password: str) -> str:
 def create_user(user_name: str, password: str, region_id: int) -> str:
     user_login = create_user_login(user_name, password, region_id)
     return _create_token(user_login)
+
+
+def validate_header(header_token: str) -> UserLogin:
+    assert header_token in _tokens, "Invalid session!"
+    return _tokens[header_token][0]
 
 
 def clear_tokens(invalid_token_duration: datetime.timedelta = datetime.timedelta(hours=2)):

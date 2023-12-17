@@ -1,9 +1,7 @@
-import decimal
-
-from sqlalchemy import String, DECIMAL, ForeignKey
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
-from models.common import DbModelBase
+from models.database.common import DbModelBase
 
 
 class GlobalModel(DbModelBase, DeclarativeBase):
