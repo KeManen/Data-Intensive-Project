@@ -1,7 +1,7 @@
-from sqlalchemy import String, ForeignKey, LargeBinary, Table, Column
-from sqlalchemy.orm import declarative_base, DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, LargeBinary
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
-from models.common import DbModelBase
+from models.database.common import DbModelBase
 
 
 class RegionalModel(DbModelBase, DeclarativeBase):
@@ -18,7 +18,7 @@ class PictureFile(RegionalModel):
     data: Mapped[bytes] = mapped_column(LargeBinary)
 
 
-class User(RegionalModel):
+class RegionalUser(RegionalModel):
     name: Mapped[str] = mapped_column(String(64))
     account_type_id: Mapped[int] = mapped_column(ForeignKey("AccountType.id"))
     picture_file_id: Mapped[int] = mapped_column(ForeignKey("PictureFile.id"))
@@ -56,7 +56,7 @@ class Album(RegionalModel):
     artist_user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
 
     picture_file: Mapped["PictureFile"] = relationship(lazy="joined")
-    artist_user: Mapped["User"] = relationship(back_populates="albums")
+    artist_user: Mapped["RegionalUser"] = relationship(back_populates="albums")
     songs: Mapped[list["Song"]] = relationship(back_populates="album")
 
 
@@ -75,5 +75,5 @@ class Playlist(RegionalModel):
     is_private: Mapped[bool] = mapped_column()
     owner_user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
 
-    owner_user: Mapped["User"] = relationship(lazy="joined")
+    owner_user: Mapped["RegionalUser"] = relationship(lazy="joined")
     songs: Mapped[list["PlaylistSong"]] = relationship(back_populates="playlist")
