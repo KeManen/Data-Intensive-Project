@@ -1,4 +1,4 @@
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 
 from domain.authentication import validate_header
 
@@ -11,11 +11,14 @@ async def _audio_data_streamer(data:bytes):
     for byte in data:
         yield byte
 
-async def get_audio_data(audio_data_name:str, token:str) -> StreamingResponse:
+async def get_audio_data_stream(audio_data_name:str, token:str) -> StreamingResponse:
+    audio_data = await get_audio_data(audio_data_name, token)
+    return StreamingResponse(_audio_data_streamer(audio_data))
+
+async def get_audio_data(audio_data_name:str, token:str) -> bytes:
     user_login = validate_header(token)
     audioData = _get_song_bytes(user_login.region.id, audio_data_name)
-
-    return StreamingResponse(_audio_data_streamer(audioData))
+    return audioData
 
 
 async def post_audio_data(audio_data:SongData, token:str):
