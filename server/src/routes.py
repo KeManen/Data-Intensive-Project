@@ -159,4 +159,3 @@ async def init():
     mongo_connection.init_db()
     global_connection.init_regions()
     regional_connection.init_clients()
-    _logger.debug(global_connection.get_all_songs())
