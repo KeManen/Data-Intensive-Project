@@ -6,11 +6,11 @@ This application is a prototype music streaming service. The application caches 
 
 The service consists of the following stack:
 -------
-frontend
-backend
-global sql data
-regional sql data
-regional nosql data
+frontend [NextJs]https://nextjs.org/
+backend [Python]https://www.python.org/
+global sql data [Postgresql]https://www.postgresql.org/
+regional sql data [Postgresql]https://www.postgresql.org/
+regional nosql data [MongoDB]https://www.mongodb.com/
 
 
 This prototype is done to demonstrate skills and knowledge about data-intensive systems.
