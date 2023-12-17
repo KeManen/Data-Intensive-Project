@@ -15,7 +15,7 @@ export const get = async (url: string, token?: string): Promise<AxiosResponse<an
 
 export const post = async (url: string, data: any, token?: string): Promise<AxiosResponse<any>> => {
   try {
-    const response: AxiosResponse<any> = await axios.post(`${apiUrl}${url}`, data, getHeaders(url));
+    const response: AxiosResponse<any> = await axios.post(`${apiUrl}${url}`, data, getHeaders(url, token));
     return response.data;
   } catch (error) {
     handleApiError(error as AxiosError);
@@ -25,7 +25,7 @@ export const post = async (url: string, data: any, token?: string): Promise<Axio
 
 export const put = async (url: string, data: any, token?: string): Promise<AxiosResponse<any>> => {
   try {
-    const response: AxiosResponse<any> = await axios.put(`${apiUrl}${url}`, data, getHeaders(url));
+    const response: AxiosResponse<any> = await axios.put(`${apiUrl}${url}`, data, getHeaders(url, token));
     return response.data;
   } catch (error) {
     handleApiError(error as AxiosError);

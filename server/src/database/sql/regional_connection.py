@@ -7,8 +7,9 @@ from typing import ContextManager
 from sqlalchemy.orm import Session
 
 from database.sql.common import ConnectionManager
-from models.database.global_models import Region, GlobalSong
-from models.database.regional_models import RegionalModel, Song, SongPlay, RegionalUser
+from database.sql.global_connection import get_region, get_region_from_name
+from models.database.global_models import Region, GlobalSong, UserLogin
+from models.database.regional_models import RegionalModel, Song, SongPlay, RegionalUser, AccountType
 
 _logger = getLogger("main.sql.regional_connection")
 
@@ -27,6 +28,19 @@ def _get_client(region_name: str) -> ConnectionManager:
     return _clients.get(region_name)
 
 
+def init_clients():
+    for region, client in _clients.items():
+        with client.session() as session:
+            try:
+                region_id = get_region_from_name(region).id
+                session.add(AccountType(identifier="Normal", id=1, price=999, region_id=region_id))
+                session.commit()
+                _logger.debug(f"Added base account type for region {region}")
+            except Exception as _:
+                pass
+
+
+
 def test_db():
     with eu_connection_manager.session() as session:
         _logger.debug("Testing regional postgresql database")
@@ -36,10 +50,10 @@ def test_db():
         _logger.debug("Test over")
 
 
-def insert_song(region_name: str, name: str, track_length_ms: int, user_id: int) -> Song:
-    client = _get_client(region_name)
+def insert_song(region: Region, name: str, track_length_ms: int, user_id: int) -> Song:
+    client = _get_client(region.name)
     with client.session() as session:
-        song = Song(name=name, track_length_ms=track_length_ms, artist_user_id=user_id)
+        song = Song(name=name, track_length_ms=track_length_ms, artist_user_id=user_id, region_id=region.id)
         session.add(song)
         session.commit()
         return session.scalar(select(Song).where(Song.name == song.name))
@@ -85,3 +99,13 @@ def get_song_duplication_regions(song: GlobalSong) -> list[str]:
             if play_count >= 5:
                 regions.append(region_name)
     return regions
+
+
+def create_regional_user(global_user: UserLogin):
+    regional_user = RegionalUser(name=global_user.name, id=global_user.id, account_type_id=1,
+                                 region_id=global_user.region_id)
+    client = _get_client(get_region(global_user.region_id).name)
+    with client.session() as session:
+        session.add(regional_user)
+        session.commit()
+    _logger.debug(f"Created user {regional_user}")

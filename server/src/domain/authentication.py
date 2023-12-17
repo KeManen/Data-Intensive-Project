@@ -4,7 +4,8 @@ from logging import getLogger
 
 import bcrypt
 
-from database.sql.global_connection import get_user_login, create_user_login, get_region_from_name
+from database.sql import global_connection, regional_connection
+from database.sql.global_connection import get_user_login, get_region_from_name
 from models.database.global_models import UserLogin
 
 _logger = getLogger("main.authentication")
@@ -39,12 +40,16 @@ def create_user(user_name: str, password: str, region_name: str) -> str:
     _logger.debug(f"Getting region {region_name}")
     region = get_region_from_name(region_name)
     _logger.debug(f"Creating login data...")
-    user_login = create_user_login(user_name, salt_and_hash(password), region.id)
+    user_login = global_connection.create_user_login(user_name, salt_and_hash(password), region.id)
+    _logger.debug("Creating regional user...")
+    regional_connection.create_regional_user(user_login)
     _logger.debug(f"Created user data successfully!")
     return _create_token(user_login)
 
 
 def validate_header(header_token: str) -> UserLogin:
+    _logger.debug(f"{_tokens}")
+    _logger.debug(f"{header_token}")
     assert header_token in _tokens, "Invalid session!"
     return _tokens[header_token][0]
 

@@ -1,3 +1,5 @@
+from logging import getLogger
+
 from fastapi.responses import StreamingResponse
 
 from domain.authentication import validate_header
@@ -7,6 +9,8 @@ from models.database.global_models import GlobalSong
 from models.database.regional_models import Song
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
+
+_logger = getLogger("main.audio_controller")
 
 async def _audio_data_streamer(data:bytes):
     for byte in data:
@@ -19,9 +23,8 @@ async def get_audio_data(audio_data_name:str, token:str) -> StreamingResponse:
     return StreamingResponse(_audio_data_streamer(audioData))
 
 
-async def post_audio_data(audio_data:SongData, token:str):
-    user_login = validate_header(token)
-    return _post_song(user_login.region.id, audio_data, user_login.id)
+def post_audio_data(audio_data: SongData, user_id: int, region_id: int):
+    return _post_song(region_id, audio_data, user_id)
 
 
 async def delete_audio_data(audio_data_name: str, token:str):
@@ -45,11 +48,11 @@ async def delete_audio_info(audio_data_name: str, token:str):
     yield NotImplementedError
 
 
-async def _post_song(region_id: int, song_data: SongData, user_id: int) -> int:
+def _post_song(region_id: int, song_data: SongData, user_id: int) -> int:
     global_connection.insert_song(song_data.name, region_id, True)
-    region_name = global_connection.get_region(region_id).name
-    song = regional_connection.insert_song(region_name, song_data.name, len(song_data.data), user_id)
-    mongo_connection.save_song(region_name, song.id, song_data.data)
+    region = global_connection.get_region(region_id)
+    song = regional_connection.insert_song(region, song_data.name, len(song_data.data), user_id)
+    mongo_connection.save_song(region.name, song.id, song_data.data)
     return song.id
 
 
@@ -63,4 +66,5 @@ async def _get_song_bytes(region_id: int, song_name: str) -> bytes:
 
 def get_songs(search_text: str) -> list[ListSong]:
     songs = global_connection.get_songs(search_text)
-    return [ListSong(name=song.name) for song in songs]
+    _logger.debug(f"{[song.name for song in songs]}")
+    return [ListSong(song_name=song.name) for song in songs]

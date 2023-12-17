@@ -2,6 +2,7 @@ from logging import getLogger
 from typing import Annotated
 from fastapi import Header
 from fastapi.responses import StreamingResponse, Response
+from starlette.requests import Request
 
 from application import application
 from database.nosql import mongo_connection
@@ -49,10 +50,9 @@ async def login(login_data: LoginData) -> LoginResponse:
     return LoginResponse(auth_token=token)
 
 
-@app.get("/songs/{search_text}")
-async def get_songs(search_text: str, token: Annotated[str | None, Header()] = None) -> list[ListSong]:
-    user_data = authentication.validate_header(token)
-    return audio_controller.get_songs(search_text)
+@app.get("/songs")
+async def get_songs(name: str, token: Annotated[str | None, Header()] = None) -> list[ListSong]:
+    return audio_controller.get_songs(name)
 
 
 @app.get("/devtool")
@@ -108,7 +108,8 @@ async def get_audio_data(audio_data_id: str, token: Annotated[str | None, Header
 @app.post("/audio_data")
 async def post_audio_data(audio_data: SongData, token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Post audio data called")
-    return await audio_controller.post_audio_data(audio_data, token)
+    user = authentication.validate_header(token)
+    return audio_controller.post_audio_data(audio_data, user.id, user.region_id)
 
 
 @app.delete("/audio_data/{audio_data_id}")
@@ -157,3 +158,5 @@ async def delete_audio_collection_member(audio_collection_member_id: str,
 async def init():
     mongo_connection.init_db()
     global_connection.init_regions()
+    regional_connection.init_clients()
+    _logger.debug(global_connection.get_all_songs())
