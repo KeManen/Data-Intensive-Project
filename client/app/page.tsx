@@ -124,7 +124,7 @@ export default function Home() {
 					</Box>
 
 					{searchResults.map((result, index) => (
-						<Button href={`/song/${result.song_name}`} key={index}>{result.song_name}</Button>
+						<Button href={`/${result.song_name}`} key={index}>{result.song_name}</Button>
 					))}
 				</Card>
 				<Card sx={{height: 700, padding: 2}}>
