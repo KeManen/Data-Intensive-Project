@@ -2,9 +2,13 @@ from logging import getLogger
 
 from sqlalchemy import select
 
+from typing import ContextManager
+
+from sqlalchemy.orm import Session
+
 from database.sql.common import ConnectionManager
 from models.database.global_models import Region
-from models.database.regional_models import RegionalModel, Song, SongPlay
+from models.database.regional_models import RegionalModel, Song, SongPlay, RegionalUser
 
 _logger = getLogger("main.sql.regional_connection")
 
@@ -53,4 +57,20 @@ def add_play(region_name: str, user_id: int, global_song_id: int):
     play = SongPlay(user_id=user_id, global_song_id=global_song_id)
     with client.session() as session:
         session.add(play)
+        session.commit()
+
+
+def get_user(region_name:str, user_name:str) -> RegionalUser:
+    with _get_client(region_name).session() as session:
+        return session.scalar(select(RegionalUser).where(RegionalUser.name == user_name))
+
+def create_user(region_name:str, user_data: RegionalUser) -> RegionalUser:
+    with _get_client(region_name).session() as session:
+        session.add(user_data)
+        session.commit()
+    return get_user(region_name)
+
+def delete_user(region_name:str, user_data: RegionalUser):
+    with _get_client(region_name).session() as session:
+        session.delete(user_data)
         session.commit()
