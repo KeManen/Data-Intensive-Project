@@ -68,9 +68,9 @@ export default function Page({params}: {params: {songName: string}}) {
     const { token } = useUser();
 
     const getSong = async () => {
-        const response = await get(`/audio_data/${params.songName}`, token)
+        const response = await get(`/audio_data/${params.songName}`, token) as any
         console.log(response.data)
-        return response.data
+        return response
     }
     
 
