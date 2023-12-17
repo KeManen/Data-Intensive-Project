@@ -44,6 +44,7 @@ async def sign_up(signup_data: SignupData) -> LoginResponse:
 
 @app.post("/login")
 async def login(login_data: LoginData) -> LoginResponse:
+    _logger.debug(f"Logging in with {login_data}")
     token = authentication.login(login_data.user_name, login_data.password)
     return LoginResponse(auth_token=token)
 
