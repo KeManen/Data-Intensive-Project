@@ -14,7 +14,7 @@ import Copyright from '@/app/ui/copyright';
 import { FormEvent, useState } from 'react';
 import { post } from '../api/restController';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 /**
  * 
