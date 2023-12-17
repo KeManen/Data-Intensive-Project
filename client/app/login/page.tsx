@@ -13,7 +13,7 @@ import Copyright from '@/app/ui/copyright';
 import { useUser } from '@/app/ui/UserProvider';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { put } from '../api/restController';
+import { post, put } from '../api/restController';
 
 /**
  * 
@@ -21,6 +21,8 @@ import { put } from '../api/restController';
  */
 
 export default function Page() {
+    const {login} = useUser();
+    const {push} = useRouter();
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
  
@@ -31,15 +33,16 @@ export default function Page() {
             password: formData.get("password")
         }
 
-        await put('/login', user)
+        await post('/login', user)
         .then(response => {
             console.log('GET Response:', response.data);
             const token = response.data
+            login('' + user.user_name, token);
+            push('/');
         })
         .catch(error => {
             console.error('GET Error:', error);
         });
-        
     }
 
     return (
