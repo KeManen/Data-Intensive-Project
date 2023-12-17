@@ -1,3 +1,5 @@
+'use client'
+
 import { get } from "@/app/api/restController";
 import { Typography } from "@mui/material";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
