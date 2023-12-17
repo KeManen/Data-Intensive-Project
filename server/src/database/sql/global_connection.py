@@ -74,6 +74,11 @@ def insert_song(song_name: str, region_id: int, primary_region: bool) -> GlobalS
         session.add(new_song)
         session.commit()
         return new_song
+    
+def remove_song(song:GlobalSong):
+    with connection_manager.session() as session:
+        session.delete(song)
+        session.commit()
 
 
 def get_relevant_song(song_name: str, region_id: int) -> GlobalSong:
@@ -89,9 +94,12 @@ def get_relevant_song(song_name: str, region_id: int) -> GlobalSong:
 
 
 def get_songs(search_text: str) -> list[GlobalSong]:
+    _logger.debug(f"Getting all songs that match {search_text}")
     with connection_manager.session() as session:
-        return session.scalars(select(GlobalSong)
-                               .where(GlobalSong.name.like(f"%{search_text}%" and GlobalSong.is_primary_region))).all()
+        all_results = session.scalars(select(GlobalSong)
+                                      .where(GlobalSong.name.like(f"%{search_text}%"))).all()
+    _logger.debug(f"{all_results}")
+    return all_results
 
 
 def get_all_songs() -> list[GlobalSong]:

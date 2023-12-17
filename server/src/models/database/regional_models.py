@@ -21,10 +21,8 @@ class PictureFile(RegionalModel):
 class RegionalUser(RegionalModel):
     name: Mapped[str] = mapped_column(String(64))
     account_type_id: Mapped[int] = mapped_column(ForeignKey("AccountType.id"))
-    picture_file_id: Mapped[int] = mapped_column(ForeignKey("PictureFile.id"))
 
     account_type: Mapped["AccountType"] = relationship(lazy="joined")
-    picture_file: Mapped["PictureFile"] = relationship(lazy="joined")
     albums: Mapped[list["Album"]] = relationship(back_populates="artist_user")
 
 
@@ -56,7 +54,7 @@ class Album(RegionalModel):
 
     picture_file: Mapped["PictureFile"] = relationship(lazy="joined")
     artist_user: Mapped["RegionalUser"] = relationship(back_populates="albums")
-    songs: Mapped[list["Song"]] = relationship(back_populates="album")
+    songs: Mapped[list["AlbumSong"]] = relationship(back_populates="album")
 
 
 class PlaylistSong(RegionalModel):
@@ -65,7 +63,7 @@ class PlaylistSong(RegionalModel):
     order: Mapped[int] = mapped_column()
 
     song: Mapped["Song"] = relationship(lazy="joined")
-    playlist: Mapped["Album"] = relationship(back_populates="songs")
+    playlist: Mapped["Playlist"] = relationship(back_populates="songs")
 
 
 class Playlist(RegionalModel):
