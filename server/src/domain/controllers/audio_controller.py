@@ -1,7 +1,6 @@
 from logging import getLogger
 
 from fastapi.responses import StreamingResponse
-
 from domain.authentication import validate_header
 
 from models.api.audio import AudioInfoData, ArtistInfoData, SongData, ListSong
@@ -12,22 +11,28 @@ from database.sql import global_connection, regional_connection
 
 _logger = getLogger("main.audio_controller")
 
-async def _audio_data_streamer(data:bytes):
+
+async def _audio_data_streamer(data: bytes):
     for byte in data:
         yield byte
 
-async def get_audio_data(audio_data_name:str, token:str) -> StreamingResponse:
-    user_login = validate_header(token)
-    audioData = _get_song_bytes(user_login.region.id, audio_data_name)
 
-    return StreamingResponse(_audio_data_streamer(audioData))
+async def get_audio_data_stream(audio_data_name: str, token: str) -> StreamingResponse:
+    audio_data = get_audio_data(audio_data_name, token)
+    return StreamingResponse(_audio_data_streamer(audio_data))
+
+
+def get_audio_data(audio_data_name: str, token: str) -> bytes:
+    user_login = validate_header(token)
+    audio_data = _get_song_bytes(user_login.region.id, audio_data_name)
+    return audio_data
 
 
 def post_audio_data(audio_data: SongData, user_id: int, region_id: int):
     return _post_song(region_id, audio_data, user_id)
 
 
-async def delete_audio_data(audio_data_name: str, token:str):
+async def delete_audio_data(audio_data_name: str, token: str):
     user_login = validate_header(token)
     yield NotImplementedError
 
@@ -56,7 +61,7 @@ def _post_song(region_id: int, song_data: SongData, user_id: int) -> int:
     return song.id
 
 
-async def _get_song_bytes(region_id: int, song_name: str) -> bytes:
+def _get_song_bytes(region_id: int, song_name: str) -> bytes:
     most_relevant_song = global_connection.get_relevant_song(song_name, region_id)
     region = global_connection.get_region(most_relevant_song.region_id)
     region_song_file_id = regional_connection.get_song(region.name, song_name).id
