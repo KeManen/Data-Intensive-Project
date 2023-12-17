@@ -9,7 +9,7 @@ class LoginData(BaseModel):
 class SignupData(BaseModel):
     user_name: str
     password: str
-    region_id: int
+    region_name: str
 
 
 class LoginResponse(BaseModel):

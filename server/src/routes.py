@@ -133,3 +133,4 @@ async def delete_audio_collection_member(audio_collection_member_id: int):
 @app.on_event("startup")
 async def init():
     mongo_connection.init_db()
+    global_connection.init_regions()
