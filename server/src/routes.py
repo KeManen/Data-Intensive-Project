@@ -32,7 +32,7 @@ async def test_database():
 @app.post("/signup")
 async def sign_up(signup_data: SignupData) -> LoginResponse:
     _logger.debug("Creating user account")
-    token = authentication.create_user(signup_data.user_name, signup_data.password, signup_data.region_id)
+    token = authentication.create_user(signup_data.user_name, signup_data.password, signup_data.region_name)
     return LoginResponse(auth_token=token)
 
 
