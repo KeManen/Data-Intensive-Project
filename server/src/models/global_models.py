@@ -20,3 +20,11 @@ class Region(GlobalModel):
     name: Mapped[str] = mapped_column(String(64))
     currency_id: Mapped[int] = mapped_column(ForeignKey("Currency.id"))
     currency: Mapped["Currency"] = relationship(lazy="joined")
+
+
+class UserLogin(GlobalModel):
+    name: Mapped[str] = mapped_column(String(64), unique=True)
+    password_hash_salt: Mapped[str] = mapped_column(String(128))
+    region_id: Mapped[int] = mapped_column(ForeignKey("Region.id"))
+
+    region: Mapped["Region"] = relationship(lazy="joined")
