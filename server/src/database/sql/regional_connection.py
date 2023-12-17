@@ -1,9 +1,7 @@
 from logging import getLogger
 
-from sqlalchemy import select
-
 from database.sql.common import ConnectionManager
-from models.regional_models import RegionalModel
+from models.database.regional_models import RegionalModel
 
 
 _logger = getLogger("main.sql.regional_connection")
