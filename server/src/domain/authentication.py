@@ -3,7 +3,7 @@ import secrets
 
 import bcrypt
 
-from database.sql.global_connection import get_user_login, create_user_login
+from database.sql.global_connection import get_user_login, create_user_login, get_region_from_name
 from models.database.global_models import UserLogin
 
 _tokens: {str, (UserLogin, datetime.datetime)} = {}
@@ -32,8 +32,9 @@ def login(user_name: str, password: str) -> str:
     raise Exception(f"Invalid password for user {user_name}")
 
 
-def create_user(user_name: str, password: str, region_id: int) -> str:
-    user_login = create_user_login(user_name, password, region_id)
+def create_user(user_name: str, password: str, region_name: str) -> str:
+    region = get_region_from_name(region_name)
+    user_login = create_user_login(user_name, password, region.id)
     return _create_token(user_login)
 
 

@@ -134,3 +134,9 @@ async def post_audio_collection_member(audio_collection_member_data: CollectionA
 async def delete_audio_collection_member(audio_collection_member_id: int, token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Delete audio collection member %d", audio_collection_member_id)
     return await audio_collection_controller.delete_audio_collection_member(audio_collection_member_id, token)
+
+
+@app.on_event("startup")
+async def init():
+    mongo_connection.init_db()
+    global_connection.init_regions()

@@ -10,5 +10,11 @@ class AudioInfoData(BaseModel):
     playback_track_id: int
     artist: ArtistInfoData
 
-class AudioData(AudioInfoData):
+class SongData(BaseModel):
+    name: str
+    artist_user_id: int
     data: bytes
+
+
+class CreateSongResponse(BaseModel):
+    song_id: int
