@@ -31,9 +31,10 @@ export default function Page() {
             password: formData.get("password")
         }
 
-        put('/login', user)
+        await put('/login', user)
         .then(response => {
             console.log('GET Response:', response.data);
+            const token = response.data
         })
         .catch(error => {
             console.error('GET Error:', error);
