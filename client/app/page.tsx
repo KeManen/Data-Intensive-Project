@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, Button, Card, Grid, InputBase, Typography, alpha, styled } from "@mui/material";
+import {Box, Button, Card, Grid, InputBase, Link, Typography, alpha, styled } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from "react";
@@ -14,10 +14,20 @@ const Search = styled('div')(({ theme }) => ({
   }
 }));
 
-const musicLibraryList = ["Rock", "Pop", "Hip-hop", "Rap", "Jazz", "Blues", "Country", "Electronic", "Classical", "Reggae", "Metal", "Indie"]
+type musicLibrary = {
+  name: string
+  id: number
+}
 
 export default function Home() {
   const [musicLibraryList, setMusicLibraryList] = useState<string[]>([])
+
+  const testList: musicLibrary[] = [
+    {name: "Rock", id: 1}, 
+    {name: "Pop", id: 1},
+    {name: "Hip-hop", id: 1},
+    {name: "Rap", id: 1},
+  ]
 
   const getMusicLibrarys = () => {
     get('/audio_collection/1')
@@ -55,11 +65,13 @@ export default function Home() {
         <Card sx={{height: 700}}>
           <div className="p-2">
             <Grid container spacing={2}>
-              {musicLibraryList.map((musicLibraryName, index) => (
-                <Grid item xs={4} key={index}> 
-                <Card sx={{height: 100, width: 100}}>
-                  {musicLibraryName}
-                </Card>
+              {testList.map((library) => (
+                <Grid item xs={3} key={library.id}> 
+                <Button href={`/library/${library.id}`}>
+                  <Card sx={{height: 100, width: 100, bgcolor: 'gray'}}>
+                    {library.name}
+                  </Card>
+                </Button>
               </Grid>
               ))}
             </Grid>
