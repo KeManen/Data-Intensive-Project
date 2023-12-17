@@ -1,9 +1,12 @@
 from pydantic import BaseModel
+from audio import AudioInfoData
 
+class CollectionAudioInfoData(AudioInfoData):
+    order: int
 
-class JSONPlaylist(BaseModel):
+class CollectionData(BaseModel):
     name: str
     picture_file_id: int
     is_private: bool
     owner_user_id: int
-    songs: list[int]
+    songs: list[CollectionAudioInfoData]
