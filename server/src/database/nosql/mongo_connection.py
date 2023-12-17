@@ -34,6 +34,9 @@ def save_song(region_name: str, song_id: int, song_data: bytes):
     database = get_database(region_name)
     database.songs.insert_one({"id": song_id, "bitstream": song_data})
 
+def remove_song(region_name:str, song_id):
+    database = get_database(region_name)
+    database.songs.delete_one({"id": song_id})
 
 def get_song(region_name: str, song_id: int) -> bytes:
     database = get_database(region_name)

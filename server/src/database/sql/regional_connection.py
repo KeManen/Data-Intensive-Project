@@ -51,6 +51,12 @@ def get_song(region_name: str, song_name: str) -> Song:
     with client.session() as session:
         return session.scalar(select(Song).where(Song.name == song_name))
 
+def remove_song(region_name: str, song_name:str):
+    client = _get_client(region_name)
+    with client.session() as session:
+        song = session.scalar(select(Song).where(Song.name == song_name))
+        session.delete(song)
+        session.commit()
 
 def add_play(region_name: str, user_id: int, global_song_id: int):
     client = _get_client(region_name)
