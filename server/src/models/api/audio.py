@@ -1,14 +1,17 @@
 from pydantic import BaseModel
 
+
 class ArtistInfoData(BaseModel):
-    name:str
-    about:str
+    name: str
+    about: str
+
 
 class AudioInfoData(BaseModel):
-    name:str
+    name: str
     track_length_ms: int
     playback_track_id: int
     artist: ArtistInfoData
+
 
 class SongData(BaseModel):
     name: str
@@ -18,3 +21,7 @@ class SongData(BaseModel):
 
 class CreateSongResponse(BaseModel):
     song_id: int
+
+
+class ListSong(BaseModel):
+    song_name: str

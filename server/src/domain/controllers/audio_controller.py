@@ -2,7 +2,8 @@ from fastapi.responses import StreamingResponse, JSONResponse
 
 from domain.authentication import validate_header
 
-from models.api.audio import AudioInfoData, ArtistInfoData, SongData
+from models.api.audio import AudioInfoData, ArtistInfoData, SongData, ListSong
+from models.database.global_models import GlobalSong
 from models.database.regional_models import Song
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
@@ -63,3 +64,8 @@ async def _get_song_bytes(region_id: int, song_name: str) -> bytes:
     region_song_file_id = regional_connection.get_song(region.name, song_name).id
     regional_connection.add_play(region, most_relevant_song.id)
     return mongo_connection.get_song(region.name, region_song_file_id)
+
+
+def get_songs(search_text: str) -> list[ListSong]:
+    songs = global_connection.get_songs(search_text)
+    return [ListSong(name=song.name) for song in songs]

@@ -1,9 +1,9 @@
 'use client'
 
-import {Box, Button, Card, Grid, InputBase, Link, Typography, alpha, styled } from "@mui/material";
+import {Box, Button, Card, Grid, InputBase, Link, List, ListItem, ListItemText, Typography, alpha, styled } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { get, post } from './api/restController';
 
 const Search = styled('div')(({ theme }) => ({
@@ -21,16 +21,18 @@ type musicLibrary = {
 
 export default function Home() {
   const [musicLibraryList, setMusicLibraryList] = useState<string[]>([])
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
 
   const testList: musicLibrary[] = [
     {name: "Rock", id: 1}, 
-    {name: "Pop", id: 1},
-    {name: "Hip-hop", id: 1},
-    {name: "Rap", id: 1},
+    {name: "Pop", id: 2},
+    {name: "Hip-hop", id: 3},
+    {name: "Rap", id: 4},
   ]
 
-  const getMusicLibrarys = () => {
-    get('/audio_collection/1')
+  const getMusicLibrarys = async () => {
+    await get('/audio_collection/1')
       .then(response => {
         console.log('GET Response:', response.data);
       })
@@ -39,6 +41,25 @@ export default function Home() {
       });
   }
 
+  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+ 
+    const formData = new FormData(event.currentTarget)
+    const searchParam = formData.get("search-param")
+
+    await get(`/songs?name=${searchParam}`)
+      .then(response => {
+        console.log('GET Response:', response.data);
+        setSearchResults(response.data)
+      })
+      .catch(error => {
+        console.error('GET Error:', error);
+      });
+    
+    //Testing
+    const fakeSearchResults = ['Song 1', 'Song 2', 'Song 3'];
+    setSearchResults(fakeSearchResults);
+  };
 
   useEffect(() => {
     const onWindowLoad = () => {
@@ -52,16 +73,31 @@ export default function Home() {
   return (
     <main className="p-2 pt-20">
       <Masonry columns={2} spacing={2}>
-        <Card sx={{height: 200}}>
+      <Card sx={{ height: 250 }}>
+        <Box component='form' onSubmit={handleSearch} noValidate sx={{ mt: 1 }}>
           <Search>
-            <SearchIcon/>
+            <SearchIcon />
             <InputBase
-              sx={{paddingLeft: 1}}
+              sx={{ paddingLeft: 1 }}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              name="search-param"
             />
           </Search>
-        </Card>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            >
+            Search
+          </Button>
+        </Box>
+
+        {searchResults.map((result, index) => (
+          <Typography key={index}>{result}</Typography>
+        ))}
+    </Card>
         <Card sx={{height: 700}}>
           <div className="p-2">
             <Grid container spacing={2}>

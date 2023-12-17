@@ -32,7 +32,7 @@ export default function Page() {
             region_name: event.currentTarget.region.value 
         }
 
-        post('/signup', userData)
+        await post('/signup', userData)
         .then(response => {
             console.log('GET Response:', response.data);
         })
