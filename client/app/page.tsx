@@ -77,13 +77,13 @@ export default function Home() {
 		event.preventDefault()
 
 		const formData = new FormData(event.currentTarget)
-		const songName: string = formData.get("input-song-name") as string;
-		const songWords: string | null = formData.get("input-song-words") as string;
+		const songName: string = formData.get("inputSongName") as string;
+		const songWords: string | null = formData.get("inputSongWords") as string;
 
 		const inputSong: Song = {
 			name: songName,
 			data: songWords
-		} 
+		}
 
 		addSong(inputSong)
 	}
@@ -158,6 +158,8 @@ export default function Home() {
 						/>
 						<Button
 							type="submit"
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
 						>Submit</Button>
 					</Box>
 				</Card>
