@@ -165,6 +165,9 @@ export default function Home() {
 							id="input-song-words"
 							name="inputSongWords"
 						/>
+						<Button
+							type="submit"
+						>Submit</Button>
 					</Box>
 				</Card>
 			</Masonry>
