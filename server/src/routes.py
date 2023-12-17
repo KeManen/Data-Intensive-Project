@@ -128,3 +128,8 @@ async def post_audio_collection_member():
 async def delete_audio_collection_member(audio_collection_member_id: int):
     _logger.debug("Delete audio collection member %d", audio_collection_member_id)
     return await audio_collection_controller.delete_audio_collection_member(audio_collection_member_id)
+
+
+@app.on_event("startup")
+async def init():
+    mongo_connection.init_db()
