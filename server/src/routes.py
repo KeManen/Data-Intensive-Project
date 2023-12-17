@@ -7,13 +7,13 @@ from application import application
 from database.nosql import mongo_connection
 from database.sql import global_connection
 from database.sql import regional_connection
-from domain import authentication
+from domain import authentication, duplication
 from domain.controllers import user_controller
 from domain.controllers import audio_controller
 from domain.controllers import audio_collection_controller
 from models.api.login import LoginData, LoginResponse, SignupData
 from models.api.user import UserData
-from models.api.audio import AudioInfoData, SongData, ListSong
+from models.api.audio import AudioInfoData, SongData, ListSong, DuplicatedSong
 from models.api.audio_collections import CollectionData, CollectionAudioInfoData
 from models.test import Test
 
@@ -50,8 +50,13 @@ async def login(login_data: LoginData) -> LoginResponse:
 
 @app.get("/songs/{search_text}")
 async def get_songs(search_text: str, token: Annotated[str | None, Header()] = None) -> list[ListSong]:
-    # user_data = authentication.validate_header(token)
+    user_data = authentication.validate_header(token)
     return audio_controller.get_songs(search_text)
+
+
+@app.get("/devtool")
+async def calculate_data_duplication() -> list[DuplicatedSong]:
+    return duplication.calculate_new_duplicates()
 
 
 # User
