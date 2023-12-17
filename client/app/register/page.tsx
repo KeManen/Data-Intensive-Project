@@ -12,9 +12,8 @@ import Card from '@mui/material/Card';
 import Copyright from '@/app/ui/copyright';
 
 import { FormEvent, useState } from 'react';
-import { get, post } from '../api/restController';
-import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { Password } from '@mui/icons-material';
+import { post } from '../api/restController';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 /**
  * 
@@ -28,12 +27,12 @@ export default function Page() {
         event.preventDefault()
  
         const userData = {
-            username: event.currentTarget.username.value,
+            user_name: event.currentTarget.username.value,
             password: event.currentTarget.password.value,
             region_name: event.currentTarget.region.value 
         }
 
-        post('/audio_collection/1', userData)
+        post('/signup', userData)
         .then(response => {
             console.log('GET Response:', response.data);
         })
