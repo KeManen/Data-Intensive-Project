@@ -93,9 +93,9 @@ async def delete_audio_info(audio_info: str, token: Annotated[str | None, Header
 
 # Audio data
 
-@app.get("/audio_data/{audio_data_id}")
-async def get_audio_data(audio_data_id: str, token: Annotated[str | None, Header()] = None) -> StreamingResponse:
-    _logger.debug("Get audio data called %d", audio_data_id)
+@app.get("/audio_data_stream/{audio_data_id}")
+async def get_audio_data_streamj(audio_data_id: str, token: Annotated[str | None, Header()] = None) -> StreamingResponse:
+    _logger.debug("Get audio data stream called %d", audio_data_id)
     return await audio_controller.get_audio_data_stream(audio_data_id, token)
 
 @app.get("/audio_data/{audio_data_id}")
