@@ -3,8 +3,7 @@ from logging import getLogger
 from sqlalchemy import select
 
 from database.sql.common import ConnectionManager
-from models.global_models import GlobalModel, Currency, Region
-
+from models.global_models import GlobalModel, Currency, Region, UserLogin
 
 _logger = getLogger("main.sql.global_connection")
 
@@ -22,3 +21,15 @@ def test_db():
         _logger.debug(session.scalar(select(Region).where(Region.id == region.id)))
         session.delete(region)
         _logger.debug("Test over")
+
+
+def create_user_login(user_name: str, password_hash: str, region_id: int) -> UserLogin:
+    with connection_manager.session() as session:
+        session.add(UserLogin(user_name=user_name, password_hash_salt=password_hash, region_id=region_id))
+        session.commit()
+        return get_user_login(user_name)
+
+
+def get_user_login(user_name: str) -> UserLogin:
+    with connection_manager.session() as session:
+        return session.scalar(select(UserLogin).where(UserLogin.name == user_name))
