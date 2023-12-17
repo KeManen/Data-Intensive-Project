@@ -13,11 +13,7 @@ from domain.controllers import audio_controller
 from domain.controllers import audio_collection_controller
 from models.api.login import LoginData, LoginResponse, SignupData
 from models.api.user import UserData
-<<<<<<< HEAD
 from models.api.audio import AudioInfoData, SongData, ListSong, DuplicatedSong
-=======
-from models.api.audio import AudioInfoData, SongData, ListSong
->>>>>>> master
 from models.api.audio_collections import CollectionData, CollectionAudioInfoData
 from models.test import Test
 
