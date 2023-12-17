@@ -12,6 +12,7 @@ import Card from '@mui/material/Card';
 import Copyright from '@/app/ui/copyright';
 
 import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * 
@@ -19,6 +20,8 @@ import { FormEvent } from 'react';
  */
 
 export default function Page() {
+
+    const { push } = useRouter();
     
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -26,6 +29,8 @@ export default function Page() {
         const formData = new FormData(event.currentTarget)
 
         //TODO some register stuff
+
+        push('/login');
     }
 
     return (
