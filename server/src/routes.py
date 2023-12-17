@@ -1,7 +1,5 @@
 from logging import getLogger
 
-from fastapi_utils.tasks import repeat_every
-
 from application import application
 from database.nosql import mongo_connection
 from database.sql import global_connection
@@ -130,9 +128,3 @@ async def post_audio_collection_member():
 async def delete_audio_collection_member(audio_collection_member_id: int):
     _logger.debug("Delete audio collection member %d", audio_collection_member_id)
     return await audio_collection_controller.delete_audio_collection_member(audio_collection_member_id)
-
-
-@app.on_event("startup")
-@repeat_every(seconds=60)
-async def clear_old_tokens():
-    authentication.clear_tokens()
