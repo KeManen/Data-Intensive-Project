@@ -3,5 +3,6 @@ venv/
 .vscode/
 data/
 
+.pytest_cache
 *__pycache__*
 *.log
