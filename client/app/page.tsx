@@ -8,11 +8,11 @@ import { get, post } from './api/restController';
 import { useUser } from "./ui/UserProvider";
 
 const Search = styled('div')(({ theme }) => ({
-width: 300,
-backgroundColor: alpha(theme.palette.common.white, 0.15),
-'&:hover': {
-backgroundColor: alpha(theme.palette.common.white, 0.25),
-}
+	width: 300,
+	backgroundColor: alpha(theme.palette.common.white, 0.15),
+	'&:hover': {
+		backgroundColor: alpha(theme.palette.common.white, 0.25),
+	}
 }));
 
 type musicLibrary = {
@@ -28,7 +28,7 @@ export default function Home() {
 	const [musicLibraryList, setMusicLibraryList] = useState<musicLibrary[]>([])
 	const [searchResults, setSearchResults] = useState<Song[]>([]);
 
-  const { token } = useUser();
+  	const { token } = useUser();
 
 	const getMusicLibrarys = async () => {
 		try {
