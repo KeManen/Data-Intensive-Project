@@ -1,10 +1,11 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse, AxiosError, AxiosRequestConfig, AxiosHeaderValue } from 'axios';
 
 const apiUrl = 'http://python_server:8000';
 
-export const get = async (url: string): Promise<AxiosResponse<any>> => {
+
+export const get = async (url: string, token?: string): Promise<AxiosResponse<any>> => {
   try {
-    const response: AxiosResponse<any> = await axios.get(`${apiUrl}${url}`);
+    const response: AxiosResponse<any> = await axios.get(`${apiUrl}${url}`, getHeaders(url, token));
     return response.data;
   } catch (error) {
     handleApiError(error as AxiosError);
@@ -12,9 +13,9 @@ export const get = async (url: string): Promise<AxiosResponse<any>> => {
   }
 };
 
-export const post = async (url: string, data: any): Promise<AxiosResponse<any>> => {
+export const post = async (url: string, data: any, token?: string): Promise<AxiosResponse<any>> => {
   try {
-    const response: AxiosResponse<any> = await axios.post(`${apiUrl}${url}`, data);
+    const response: AxiosResponse<any> = await axios.post(`${apiUrl}${url}`, data, getHeaders(url));
     return response.data;
   } catch (error) {
     handleApiError(error as AxiosError);
@@ -22,9 +23,9 @@ export const post = async (url: string, data: any): Promise<AxiosResponse<any>> 
   }
 };
 
-export const put = async (url: string, data: any): Promise<AxiosResponse<any>> => {
+export const put = async (url: string, data: any, token?: string): Promise<AxiosResponse<any>> => {
   try {
-    const response: AxiosResponse<any> = await axios.put(`${apiUrl}${url}`, data);
+    const response: AxiosResponse<any> = await axios.put(`${apiUrl}${url}`, data, getHeaders(url));
     return response.data;
   } catch (error) {
     handleApiError(error as AxiosError);
@@ -34,4 +35,16 @@ export const put = async (url: string, data: any): Promise<AxiosResponse<any>> =
 
 const handleApiError = (error: AxiosError) => {
   console.error('API Request Error:', error.message);
+};
+
+const getHeaders = (url: string, token?: string) => {
+  if (token && url != '/login' && url != '/signup') {
+    let headers: AxiosRequestConfig = {
+      headers: {
+        token: token as AxiosHeaderValue,
+      }
+    }
+    return headers
+  }
+  return undefined;
 };

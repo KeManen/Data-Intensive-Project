@@ -5,6 +5,7 @@ import Masonry from '@mui/lab/Masonry';
 import SearchIcon from '@mui/icons-material/Search';
 import { FormEvent, useEffect, useState } from "react";
 import { get, post } from './api/restController';
+import { useUser } from "./ui/UserProvider";
 
 const Search = styled('div')(({ theme }) => ({
   width: 300,
@@ -24,6 +25,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
 
+  const { token } = useUser();
+
   const testList: musicLibrary[] = [
     {name: "Rock", id: 1}, 
     {name: "Pop", id: 2},
@@ -32,7 +35,7 @@ export default function Home() {
   ]
 
   const getMusicLibrarys = async () => {
-    await get('/audio_collection/1')
+    await get('/audio_collection/1', token)
       .then(response => {
         console.log('GET Response:', response.data);
       })
@@ -47,7 +50,7 @@ export default function Home() {
     const formData = new FormData(event.currentTarget)
     const searchParam = formData.get("search-param")
 
-    await get(`/songs?name=${searchParam}`)
+    await get(`/songs?name=${searchParam}`, token)
       .then(response => {
         console.log('GET Response:', response.data);
         setSearchResults(response.data)
