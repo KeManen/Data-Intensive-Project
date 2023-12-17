@@ -46,22 +46,22 @@ async def login(login_data: LoginData) -> LoginResponse:
 
 
 # User
-@app.get("/user/{user_id}")
-async def get_user(user_id: int) -> UserData:
-    _logger.debug("Get user called %d", user_id)
-    return await user_controller.get_user(user_id)
+@app.get("/user/{user_name}")
+async def get_user(user_name: str) -> UserData:
+    _logger.debug("Get user called %d", user_name)
+    return await user_controller.get_user(user_name)
 
 
 @app.post("/user")
-async def post_user() -> UserData:
+async def post_user(user_data: UserData) -> Response:
     _logger.debug("User post called")
-    return await user_controller.post_user()
+    return await user_controller.post_user(user_data)
 
 
-@app.delete("/user/{user_id}")
-async def delete_user(user_id: int) -> Response:
-    _logger.debug("User delete called for %d", user_id)
-    return await user_controller.delete_user()
+@app.delete("/user/{user_name}")
+async def delete_user(user_name: int) -> Response:
+    _logger.debug("User delete called for %d", user_name)
+    return await user_controller.delete_user(user_name)
 
 
 # Audio info
