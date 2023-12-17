@@ -20,7 +20,7 @@ export default function Home() {
   const [musicLibraryList, setMusicLibraryList] = useState<string[]>([])
 
   const getMusicLibrarys = () => {
-    get<{ yourData: string }>('/audio_collection/1')
+    get('/audio_collection/1')
       .then(response => {
         console.log('GET Response:', response.data);
       })
