@@ -42,18 +42,18 @@ class Song(RegionalModel):
     name: Mapped[str] = mapped_column(String(128))
     track_length_ms: Mapped[int] = mapped_column()
     playback_track_id: Mapped[int] = mapped_column()
-    artist_user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
+    artist_user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
 
 class SongPlay(RegionalModel):
     song_id: Mapped[int] = mapped_column(ForeignKey("Song.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
 
 class Album(RegionalModel):
     name: Mapped[str] = mapped_column(String(128))
     picture_file_id: Mapped[int] = mapped_column(ForeignKey("PictureFile.id"))
-    artist_user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
+    artist_user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
     picture_file: Mapped["PictureFile"] = relationship(lazy="joined")
     artist_user: Mapped["RegionalUser"] = relationship(back_populates="albums")
@@ -73,7 +73,7 @@ class Playlist(RegionalModel):
     name: Mapped[str] = mapped_column(String(128))
     picture_file_id: Mapped[int] = mapped_column(ForeignKey("PictureFile.id"))
     is_private: Mapped[bool] = mapped_column()
-    owner_user_id: Mapped[int] = mapped_column(ForeignKey("User.id"))
+    owner_user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
     owner_user: Mapped["RegionalUser"] = relationship(lazy="joined")
     songs: Mapped[list["PlaylistSong"]] = relationship(back_populates="playlist")
