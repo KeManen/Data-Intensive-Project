@@ -22,6 +22,7 @@ class User(RegionalModel):
     name: Mapped[str] = mapped_column(String(64))
     account_type_id: Mapped[int] = mapped_column(ForeignKey("AccountType.id"))
     picture_file_id: Mapped[int] = mapped_column(ForeignKey("PictureFile.id"))
+    password_hash_salt: Mapped[str] = mapped_column(String(128))
 
     account_type: Mapped["AccountType"] = relationship(lazy="joined")
     picture_file: Mapped["PictureFile"] = relationship(lazy="joined")
