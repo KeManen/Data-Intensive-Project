@@ -10,3 +10,5 @@ class AudioInfoData(BaseModel):
     playback_track_id: int
     artist: ArtistInfoData
 
+class AudioData(AudioInfoData):
+    data: bytes
