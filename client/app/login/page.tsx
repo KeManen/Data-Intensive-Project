@@ -10,8 +10,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Copyright from '@/app/ui/copyright';
-
+import { useUser } from '@/app/ui/UserProvider';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * 
@@ -19,13 +20,21 @@ import { FormEvent } from 'react';
  */
 
 export default function Page() {
+
+    const { push } = useRouter();
+
+    const { login } = useUser();
     
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
  
         const formData = new FormData(event.currentTarget)
 
-        //TODO some login stuff
+        //TODO some login stuff (actually call backend)
+        
+        let user = '' + formData.get("username");
+        login(user);
+        push('/');
     }
 
     return (
