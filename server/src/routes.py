@@ -6,12 +6,12 @@ from application import application
 from database.nosql import mongo_connection
 from database.sql import global_connection
 from database.sql import regional_connection
-from domain.authentication import clear_tokens
+from domain import authentication
 from domain.controllers import user_controller
 from domain.controllers import audio_controller
 from domain.controllers import audio_collection_controller
+from models.api.login import LoginData, LoginResponse, SignupData
 from models.test import Test
-
 
 _logger = getLogger("main.routes")
 app = application
@@ -29,6 +29,18 @@ async def test_database():
     mongo_connection.test_db()
     global_connection.test_db()
     regional_connection.test_db()
+
+
+@app.post("/signup")
+async def sign_up(signup_data: SignupData) -> LoginResponse:
+    token = authentication.create_user(signup_data.user_name, signup_data.password, signup_data.region_id)
+    return LoginResponse(auth_token=token)
+
+
+@app.post("/login")
+async def login(login_data: LoginData) -> LoginResponse:
+    token = authentication.login(login_data.user_name, login_data.password)
+    return LoginResponse(auth_token=token)
 
 
 # User
@@ -68,11 +80,13 @@ async def delete_audio_info(audio_info: int):
     _logger.debug("Delete audio info called %d", audio_info)
     return await audio_controller.delete_audio_info(audio_info)
 
+
 # Audio data
 @app.get("/audio_data/{audio_data_id}")
 async def get_audio_data(audio_data: int):
     _logger.debug("Get audio data called %d", audio_data)
     return await audio_controller.get_audio_data(audio_data)
+
 
 @app.post("/audio_data")
 async def post_audio_data():
@@ -121,4 +135,4 @@ async def delete_audio_collection_member(audio_collection_member_id: int):
 @app.on_event("startup")
 @repeat_every(seconds=60)
 async def clear_old_tokens():
-    clear_tokens()
+    authentication.clear_tokens()

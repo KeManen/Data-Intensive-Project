@@ -3,7 +3,7 @@ from logging import getLogger
 from sqlalchemy import select
 
 from database.sql.common import ConnectionManager
-from models.global_models import GlobalModel, Currency, Region, UserLogin
+from models.database.global_models import GlobalModel, Currency, Region, UserLogin
 
 _logger = getLogger("main.sql.global_connection")
 
