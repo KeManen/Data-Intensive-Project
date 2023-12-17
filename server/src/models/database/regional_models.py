@@ -41,12 +41,11 @@ class AlbumSong(RegionalModel):
 class Song(RegionalModel):
     name: Mapped[str] = mapped_column(String(128))
     track_length_ms: Mapped[int] = mapped_column()
-    playback_track_id: Mapped[int] = mapped_column()
     artist_user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
 
 class SongPlay(RegionalModel):
-    song_id: Mapped[int] = mapped_column(ForeignKey("Song.id"))
+    global_song_id: Mapped[int] = mapped_column()
     user_id: Mapped[int] = mapped_column(ForeignKey("RegionalUser.id"))
 
 

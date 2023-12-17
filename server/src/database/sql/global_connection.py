@@ -3,7 +3,7 @@ from logging import getLogger
 from sqlalchemy import select
 
 from database.sql.common import ConnectionManager
-from models.database.global_models import GlobalModel, Currency, Region, UserLogin
+from models.database.global_models import GlobalModel, Currency, Region, UserLogin, GlobalSong
 
 _logger = getLogger("main.sql.global_connection")
 
@@ -66,3 +66,23 @@ def get_currency(currency_id: int) -> Currency:
 def get_currency_from_name(currency_name: str) -> Currency:
     with connection_manager.session() as session:
         return session.scalar(select(Currency).where(Currency.name == currency_name))
+
+
+def insert_song(song_name: str, region_id: int, primary_region: bool) -> GlobalSong:
+    with connection_manager.session() as session:
+        new_song = GlobalSong(name=song_name, region_id=region_id, is_primary_region=primary_region)
+        session.add(new_song)
+        session.commit()
+        return new_song
+
+
+def get_relevant_song(song_name: str, region_id: int) -> GlobalSong:
+    with connection_manager.session() as session:
+        local_song = session.scalar(select(GlobalSong)
+                                    .where(GlobalSong.name == song_name and GlobalSong.region_id == region_id))
+        if local_song is not None:
+            return local_song
+
+        primary_song = session.scalar(select(GlobalSong)
+                                      .where(GlobalSong.name == song_name and GlobalSong.is_primary_region))
+        return primary_song
