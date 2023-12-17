@@ -1,7 +1,7 @@
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
-from authentication import validate_header
+from domain.authentication import validate_header
 
 from models.api.audio_collections import AudioInfoData, CollectionAudioInfoData
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from audio import AudioInfoData
+from models.api.audio import AudioInfoData
 
 class CollectionAudioInfoData(AudioInfoData):
     order: int

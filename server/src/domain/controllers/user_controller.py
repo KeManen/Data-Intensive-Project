@@ -1,9 +1,9 @@
 from fastapi.responses import Response
 
-from ...models.api.user import UserData, AccountType, PictureData
-from ...models.database.regional_models import RegionalUser, AccountType as AccountTypeModel, PictureFile
-from ...database.sql.regional_connection import  get_user as get_user_model, create_user as post_user_model, delete_user as delete_user_model
-from ..authentication import validate_header
+from models.api.user import UserData, AccountType, PictureData
+from models.database.regional_models import RegionalUser, AccountType as AccountTypeModel, PictureFile
+from database.sql.regional_connection import  get_user as get_user_model, create_user as post_user_model, delete_user as delete_user_model
+from domain.authentication import validate_header
 
 
 

@@ -1,13 +1,11 @@
 from fastapi.responses import StreamingResponse
 
-from authentication import validate_header
+from domain.authentication import validate_header
 
-from ...models.api.audio import AudioInfoData, ArtistInfoData, AudioData
-from ...models.database.regional_models import Song
+from models.api.audio import AudioInfoData, ArtistInfoData, SongData
+from models.database.regional_models import Song
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
-
-from models.api.audio import SongData
 
 async def _audio_data_streamer(data:bytes):
     for byte in data:

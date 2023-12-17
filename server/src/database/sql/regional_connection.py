@@ -4,8 +4,7 @@ from sqlalchemy import select
 
 from typing import ContextManager
 
-from sqlalchemy.orm import Session, select
-
+from sqlalchemy.orm import Session
 
 from database.sql.common import ConnectionManager
 from models.database.global_models import Region
