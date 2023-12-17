@@ -31,5 +31,5 @@ class UserLogin(GlobalModel):
 class GlobalSong(GlobalModel):
     name: Mapped[str] = mapped_column(String(128))
     region_id: Mapped[int] = mapped_column(ForeignKey("Region.id"))
-    region: Mapped["Region"] = relationship()
+    region: Mapped["Region"] = relationship(lazy="joined")
     is_primary_region: Mapped[bool] = mapped_column()
