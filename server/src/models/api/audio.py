@@ -15,7 +15,6 @@ class AudioInfoData(BaseModel):
 
 class SongData(BaseModel):
     name: str
-    artist_user_id: int
     data: bytes
 
 
