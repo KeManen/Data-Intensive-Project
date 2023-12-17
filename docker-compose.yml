@@ -32,7 +32,7 @@ services:
             - outgoing
             - internal
     mongo_eu:
-        image: mongodb/mongodb-community-server 
+        image: mongodb/mongodb-community-server:6.0-ubi8
         restart: always
         environment:
             MONGODB_INITDB_ROOT_USERNAME: root
@@ -44,7 +44,7 @@ services:
         networks:
             - internal
     mongo_us:
-        image: mongodb/mongodb-community-server
+        image: mongodb/mongodb-community-server:6.0-ubi8
         restart: always
         environment:
             MONGODB_INITDB_ROOT_USERNAME: root
