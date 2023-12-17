@@ -43,7 +43,7 @@ def _get_formatter(handler: Handler) -> Formatter:
         if isinstance(handler, StreamHandler) and stream_supports_colour(handler.stream):
             return _ColourFormatter()
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    return Formatter("{asctime} {levelname:<8} {name:<24} {message}", dt_fmt, style="{")
+    return Formatter("{asctime} {levelname:<8} {name:<32} {message}", dt_fmt, style="{")
 
 
 def _ensure_file(file_name: str):
@@ -79,6 +79,7 @@ def _build_logger(log_type: str):
 def setup_logging():
     _build_logger("main")
     _build_logger("uvicorn")
+    _build_logger("sqlalchemy")
     getLogger("main.logging").debug("Logging set up successfully")
 
 
@@ -153,7 +154,7 @@ class _ColourFormatter(Formatter):
 
     FORMATS = {
         level: Formatter(
-            f'\x1b[30;1m%(asctime)s\x1b[0m {colour}%(levelname)-8s\x1b[0m \x1b[35m%(name)-24s\x1b[0m %(message)s',
+            f'\x1b[30;1m%(asctime)s\x1b[0m {colour}%(levelname)-8s\x1b[0m \x1b[35m%(name)-32s\x1b[0m %(message)s',
             '%Y-%m-%d %H:%M:%S',
         )
         for level, colour in LEVEL_COLOURS

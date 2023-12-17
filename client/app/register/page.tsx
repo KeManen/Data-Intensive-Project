@@ -12,6 +12,7 @@ import Card from '@mui/material/Card';
 import Copyright from '@/app/ui/copyright';
 
 import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * 
@@ -19,6 +20,8 @@ import { FormEvent } from 'react';
  */
 
 export default function Page() {
+
+    const { push } = useRouter();
     
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -26,6 +29,8 @@ export default function Page() {
         const formData = new FormData(event.currentTarget)
 
         //TODO some register stuff
+
+        push('/login');
     }
 
     return (
@@ -47,49 +52,49 @@ export default function Page() {
                     </Typography>
                     <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
                         />
                         <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Username"
-                            name="username"
-                            autoComplete="username"                        
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"                        
                         />
                         <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
                         />
                         <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password-verify"
-                            label="Password again"
-                            type="password"
-                            id="password-verify"
-                            autoComplete="current-password"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password-verify"
+                        label="Password again"
+                        type="password"
+                        id="password-verify"
+                        autoComplete="current-password"
                         />
                         <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
                         >
                         Register
                         </Button>
