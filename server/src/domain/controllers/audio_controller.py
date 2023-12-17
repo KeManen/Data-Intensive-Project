@@ -1,12 +1,10 @@
+from fastapi.responses import StreamingResponse, JSONResponse
 from logging import getLogger
 
-from fastapi.responses import StreamingResponse
 
 from domain.authentication import validate_header
 
-from models.api.audio import AudioInfoData, ArtistInfoData, SongData, ListSong
-from models.database.global_models import GlobalSong
-from models.database.regional_models import Song
+from models.api.audio import SongData, ListSong
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
 
@@ -16,11 +14,14 @@ async def _audio_data_streamer(data:bytes):
     for byte in data:
         yield byte
 
-async def get_audio_data(audio_data_name:str, token:str) -> StreamingResponse:
+async def get_audio_data_stream(audio_data_name:str, token:str) -> StreamingResponse:
+    audio_data = await get_audio_data(audio_data_name, token)
+    return StreamingResponse(_audio_data_streamer(audio_data))
+
+async def get_audio_data(audio_data_name:str, token:str) -> bytes:
     user_login = validate_header(token)
     audioData = _get_song_bytes(user_login.region.id, audio_data_name)
-
-    return StreamingResponse(_audio_data_streamer(audioData))
+    return audioData
 
 
 def post_audio_data(audio_data: SongData, user_id: int, region_id: int):
@@ -29,24 +30,7 @@ def post_audio_data(audio_data: SongData, user_id: int, region_id: int):
 
 async def delete_audio_data(audio_data_name: str, token:str):
     user_login = validate_header(token)
-    yield NotImplementedError
-
-
-async def get_audio_info(audio_data_name: str, token:str):
-    user_login = validate_header(token)
-
-    yield NotImplementedError
-
-
-async def post_audio_info(audio_data:AudioInfoData,token:str):
-    user_login = validate_header(token)
-    yield NotImplementedError
-
-
-async def delete_audio_info(audio_data_name: str, token:str):
-    user_login = validate_header(token)
-    yield NotImplementedError
-
+    mongo_connection.remove_song(user_login.region_id, audio_data_name)
 
 def _post_song(region_id: int, song_data: SongData, user_id: int) -> int:
     global_connection.insert_song(song_data.name, region_id, True)

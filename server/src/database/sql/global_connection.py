@@ -74,6 +74,11 @@ def insert_song(song_name: str, region_id: int, primary_region: bool) -> GlobalS
         session.add(new_song)
         session.commit()
         return new_song
+    
+def remove_song(song:GlobalSong):
+    with connection_manager.session() as session:
+        session.delete(song)
+        session.commit()
 
 
 def get_relevant_song(song_name: str, region_id: int) -> GlobalSong:
