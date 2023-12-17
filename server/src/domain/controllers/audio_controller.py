@@ -28,12 +28,12 @@ async def post_audio_data(audio_data:SongData, token:str):
 
 async def delete_audio_data(audio_data_name: str, token:str):
     user_login = validate_header(token)
-    yield NotImplementedError
+    mongo_connection.remove_song(user_login.region_id, audio_data_name)
 
-
-async def get_audio_info(audio_data_name: str, token:str):
+#AudioInfos is out of scope for this prototype.
+async def get_audio_info(audio_data_name: str, token:str) -> AudioInfoData:
     user_login = validate_header(token)
-
+    song = regional_connection.get_song(user_login.region_id, audio_data_name)
     yield NotImplementedError
 
 
@@ -44,6 +44,8 @@ async def post_audio_info(audio_data:AudioInfoData,token:str):
 
 async def delete_audio_info(audio_data_name: str, token:str):
     user_login = validate_header(token)
+    globalSong = global_connection.get_relevant_song(audio_data_name, user_login.region.id)
+    global_connection.remove_song(globalSong)
     yield NotImplementedError
 
 
