@@ -104,8 +104,9 @@ async def get_audio_data(audio_data_id: str, token: Annotated[str | None, Header
     _logger.debug("Get audio data called %d", audio_data_id)
     return await audio_controller.get_audio_data(audio_data_id, token)
 
+
 @app.post("/audio_data")
-async def post_audio_data(audio_data:SongData, token: Annotated[str | None, Header()] = None) -> Response:
+async def post_audio_data(audio_data: SongData, token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Post audio data called")
     return await audio_controller.post_audio_data(audio_data, token)
 
@@ -118,12 +119,15 @@ async def delete_audio_info(audio_data_id: str, token: Annotated[str | None, Hea
 
 # Audio collection
 @app.get("/audio_collection/{audio_collection_id}")
-async def get_audio_collection(audio_collection_id: str, token: Annotated[str | None, Header()] = None) -> CollectionData:
+async def get_audio_collection(audio_collection_id: str,
+                               token: Annotated[str | None, Header()] = None) -> CollectionData:
     _logger.debug("Get audio collection %d", audio_collection_id)
     return await audio_collection_controller.get_audio_collection(audio_collection_id, token)
 
+
 @app.post("/audio_collection")
-async def post_audio_collection(audio_collection_data: CollectionData, token: Annotated[str | None, Header()] = None) -> Response:
+async def post_audio_collection(audio_collection_data: CollectionData,
+                                token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Post audio collection")
     return await audio_collection_controller.post_audio_collection(audio_collection_data, token)
 
@@ -133,15 +137,18 @@ async def delete_audio_collection(audio_collection_id: str, token: Annotated[str
     _logger.debug("Get audio collection")
     return await audio_collection_controller.delete_audio_collection(audio_collection_id, token)
 
+
 # Audio collection member
 @app.post("/audio_collection_member")
-async def post_audio_collection_member(audio_collection_member_data: CollectionAudioInfoData, token: Annotated[str | None, Header()] = None) -> Response:
+async def post_audio_collection_member(audio_collection_member_data: CollectionAudioInfoData,
+                                       token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Post audio collection member")
     return await audio_collection_controller.post_audio_collection_member(audio_collection_member_data, token)
 
 
 @app.delete("/audio_collection_member/{audio_collection_member_id}")
-async def delete_audio_collection_member(audio_collection_member_id: str, token: Annotated[str | None, Header()] = None) -> Response:
+async def delete_audio_collection_member(audio_collection_member_id: str,
+                                         token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Delete audio collection member %d", audio_collection_member_id)
     return await audio_collection_controller.delete_audio_collection_member(audio_collection_member_id, token)
 
