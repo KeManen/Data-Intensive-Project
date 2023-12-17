@@ -14,6 +14,7 @@ import Copyright from '@/app/ui/copyright';
 import { FormEvent, useState } from 'react';
 import { post } from '../api/restController';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { useRouter } from 'next/router';
 
 /**
  * 
@@ -22,6 +23,8 @@ import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 export default function Page() {
     const [region, setRegion] = useState<string>('')
+
+    const { push } = useRouter();
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -35,6 +38,7 @@ export default function Page() {
         await post('/signup', userData)
         .then(response => {
             console.log('GET Response:', response.data);
+            push('/login');
         })
         .catch(error => {
             console.error('GET Error:', error);
