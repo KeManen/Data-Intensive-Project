@@ -38,7 +38,7 @@ def init_regions():
 
 def create_user_login(user_name: str, password_hash: str, region_id: int) -> UserLogin:
     with connection_manager.session() as session:
-        session.add(UserLogin(user_name=user_name, password_hash_salt=password_hash, region_id=region_id))
+        session.add(UserLogin(name=user_name, password_hash_salt=password_hash, region_id=region_id))
         session.commit()
         return get_user_login(user_name)
 
