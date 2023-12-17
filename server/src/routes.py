@@ -77,6 +77,7 @@ async def delete_user(user_name: int, token: Annotated[str | None, Header()] = N
     _logger.debug("User delete called for %d", user_name)
     return await user_controller.delete_user(user_name, token)
 
+  
 # Audio data
 @app.get("/audio_data_stream/{audio_data_name}")
 async def get_audio_data_stream(audio_data_id: str, token: Annotated[str | None, Header()] = None) -> StreamingResponse:
@@ -86,7 +87,7 @@ async def get_audio_data_stream(audio_data_id: str, token: Annotated[str | None,
 @app.get("/audio_data/{audio_data_name}")
 async def get_audio_data(audio_data_id: str, token: Annotated[str | None, Header()] = None) -> bytes:
     _logger.debug("Get audio data called %d", audio_data_id)
-    return await audio_controller.get_audio_data(audio_data_id, token)
+    return audio_controller.get_audio_data(audio_data_id, token)
 
 
 @app.post("/audio_data")
@@ -100,6 +101,7 @@ async def post_audio_data(audio_data: SongData, token: Annotated[str | None, Hea
 async def delete_audio_info(audio_data_name: str, token: Annotated[str | None, Header()] = None) -> Response:
     _logger.debug("Delete audio data %d", audio_data_name)
     return await audio_controller.delete_audio_data(audio_data_name, token)
+
 
 @app.on_event("startup")
 async def init():
