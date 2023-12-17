@@ -6,6 +6,7 @@ services:
             context: ./client/
             dockerfile: Dockerfile
         restart: always
+        ports:
             - 80:3000
         environment:
             host: 0.0.0.0
