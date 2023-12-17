@@ -23,6 +23,7 @@ def _build_song_regions(all_songs: list[GlobalSong]) -> {int: set[int]}:
             song_regions[song.name].insert(0, song)
         else:
             song_regions[song.name].append(song)
+    return song_regions
 
 
 def _calculate_duplicates(songs: list[GlobalSong]) -> list[DuplicatedSong]:
