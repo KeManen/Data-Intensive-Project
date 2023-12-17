@@ -22,6 +22,16 @@ export const post = async (url: string, data: any): Promise<AxiosResponse<any>> 
   }
 };
 
+export const put = async (url: string, data: any): Promise<AxiosResponse<any>> => {
+  try {
+    const response: AxiosResponse<any> = await axios.put(`${apiUrl}${url}`, data);
+    return response.data;
+  } catch (error) {
+    handleApiError(error as AxiosError);
+    throw error;
+  }
+};
+
 const handleApiError = (error: AxiosError) => {
   console.error('API Request Error:', error.message);
 };
