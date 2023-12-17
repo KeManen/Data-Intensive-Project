@@ -23,10 +23,13 @@ type Song = {
 	name: string
 	data: string
 }
+type searchedSong = {
+	song_name: string
+}
 
 export default function Home() {
 	const [musicLibraryList, setMusicLibraryList] = useState<musicLibrary[]>([])
-	const [searchResults, setSearchResults] = useState<Song[]>([]);
+	const [searchResults, setSearchResults] = useState<searchedSong[]>([]);
 
   	const { token } = useUser();
 
@@ -43,9 +46,9 @@ export default function Home() {
 
 	const searchSong = async (searchParam: string) => {
 		try {
-			const response = await get(`/songs?name=${searchParam}`, token)
-			console.log('GET Response: ', response.data)
-			return response.data
+			const response = await get(`/songs?name=${searchParam}`, token) as any
+			console.log('GET Response: ', response)
+			return response
 		} catch (error) {
 			console.error('GET Error:', error);
 			throw error;
@@ -121,7 +124,7 @@ export default function Home() {
 					</Box>
 
 					{searchResults.map((result, index) => (
-						<Button href={`/song/${result.name}`} key={index}>{result.name}</Button>
+						<Button href={`/song/${result.song_name}`} key={index}>{result.song_name}</Button>
 					))}
 				</Card>
 				<Card sx={{height: 700, padding: 2}}>
