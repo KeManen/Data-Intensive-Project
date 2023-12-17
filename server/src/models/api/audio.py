@@ -25,3 +25,8 @@ class CreateSongResponse(BaseModel):
 
 class ListSong(BaseModel):
     song_name: str
+
+
+class DuplicatedSong(BaseModel):
+    song_name: str
+    region_code: str

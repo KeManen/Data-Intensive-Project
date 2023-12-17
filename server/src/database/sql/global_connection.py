@@ -90,4 +90,10 @@ def get_relevant_song(song_name: str, region_id: int) -> GlobalSong:
 
 def get_songs(search_text: str) -> list[GlobalSong]:
     with connection_manager.session() as session:
-        return session.scalars(select(GlobalSong).where(GlobalSong.name.like(f"%{search_text}%"))).all()
+        return session.scalars(select(GlobalSong)
+                               .where(GlobalSong.name.like(f"%{search_text}%" and GlobalSong.is_primary_region))).all()
+
+
+def get_all_songs() -> list[GlobalSong]:
+    with connection_manager.session() as session:
+        return session.scalars(select(GlobalSong)).all()
