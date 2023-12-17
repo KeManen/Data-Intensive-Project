@@ -18,7 +18,6 @@ def salt_and_hash(password: str) -> str:
 
 
 def validate(password: str, candidate: str) -> bool:
-    _logger.info(f"Password: {password}, candidate: {candidate}")
     return bcrypt.checkpw(password.encode("utf-8"), candidate.encode("utf-8"))
 
 
@@ -29,7 +28,6 @@ def _create_token(user_login: UserLogin) -> str:
 
 
 def login(user_name: str, password: str) -> str:
-    _logger.debug(f"Logging in user {user_name} with password {password}")
     user_login = get_user_login(user_name)
     assert user_login is not None, f"Could not find user with name {user_name}"
     if validate(password, user_login.password_hash_salt):
