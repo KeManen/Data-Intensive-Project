@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 from database.nosql import mongo_connection
 from database.sql import global_connection, regional_connection
-=======
->>>>>>> master
+
 from models.api.audio import SongData
 
 
