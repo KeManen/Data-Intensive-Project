@@ -52,6 +52,7 @@ async def login(login_data: LoginData) -> LoginResponse:
 
 @app.get("/songs")
 async def get_songs(name: str, token: Annotated[str | None, Header()] = None) -> list[ListSong]:
+    user = authentication.validate_header(token)
     return audio_controller.get_songs(name)
 
 
