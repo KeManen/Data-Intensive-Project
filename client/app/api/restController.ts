@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const apiUrl = 'http://0.0.0.0:8000';
+const apiUrl = 'http://localhost:8000';
 
 export const get = async (url: string): Promise<AxiosResponse<any>> => {
   try {
