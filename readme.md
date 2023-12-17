@@ -27,3 +27,5 @@ This project is fully dockered so there is no need for local installation.
 ## How to start
 
 <c>docker compose up</c>
+
+User interface can be found at http://localhost
