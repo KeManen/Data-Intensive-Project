@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { FormEvent, useEffect, useState } from "react";
 import { get, post } from './api/restController';
 import internal from "stream";
+import { useUser } from "./ui/UserProvider";
 
 const Search = styled('div')(({ theme }) => ({
 width: 300,
@@ -29,6 +30,8 @@ export default function Home() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchResults, setSearchResults] = useState<Song[]>([]);
 
+  const { token } = useUser();
+
 	const testList: musicLibrary[] = [
 		{name: "Rock", id: 1}, 
 		{name: "Pop", id: 2},
@@ -38,7 +41,7 @@ export default function Home() {
 
 	const getMusicLibrarys = async () => {
 		try {
-			const response = await get('/audio_collection/1');
+			const response = await get('/audio_collection/1', token);
 			console.log('GET Response:', response.data);
 			return response.data;
 		} catch (error) {
@@ -49,7 +52,7 @@ export default function Home() {
 
 	const searchSong = async (searchParam: string) => {
 		try {
-			const response = await get(`/songs?name=${searchParam}`)
+			const response = await get(`/songs?name=${searchParam}`, token)
 			console.log('GET Response: ', response.data)
 			return response.data
 		} catch (error) {
@@ -60,7 +63,7 @@ export default function Home() {
 
 	const addSong = async (inputSong: Song) => {
 		try {
-			const response = await post('/audio_data', inputSong);
+			const response = await post('/audio_data', inputSong, token);
 			console.log('GET Response:', response.data);
 			return response.data;
 		} catch (error) {
