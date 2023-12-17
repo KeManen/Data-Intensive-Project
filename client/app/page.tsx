@@ -4,6 +4,7 @@ import {Box, Button, Card, Grid, InputBase, Typography, alpha, styled } from "@m
 import Masonry from '@mui/lab/Masonry';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from "react";
+import { get, post } from './api/restController';
 
 const Search = styled('div')(({ theme }) => ({
   width: 300,
@@ -16,17 +17,30 @@ const Search = styled('div')(({ theme }) => ({
 const musicLibraryList = ["Rock", "Pop", "Hip-hop", "Rap", "Jazz", "Blues", "Country", "Electronic", "Classical", "Reggae", "Metal", "Indie"]
 
 export default function Home() {
-  const [musicLibraryList, setMusicLibraryList] = useState
+  const [musicLibraryList, setMusicLibraryList] = useState<string[]>([])
+
+  const getMusicLibrarys = () => {
+    get<{ yourData: string }>('/audio_collection/1')
+      .then(response => {
+        console.log('GET Response:', response.data);
+      })
+      .catch(error => {
+        console.error('GET Error:', error);
+      });
+  }
 
 
   useEffect(() => {
-    musicLibraryList = getMusicLibrarys() => {
-      
+    const onWindowLoad = () => {
+      //const response =  getMusicLibrarys()
+      getMusicLibrarys()
+      //setMusicLibraryList(response) 
     }
+    onWindowLoad()
   }, [])
 
   return (
-    <main className="p-2">
+    <main className="p-2 pt-20">
       <Masonry columns={2} spacing={2}>
         <Card sx={{height: 200}}>
           <Search>
