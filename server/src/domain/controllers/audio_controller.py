@@ -14,7 +14,6 @@ async def _audio_data_streamer(data: bytes):
     for byte in data:
         yield byte
 
-
 async def get_audio_data_stream(audio_data_name: str, token: str) -> StreamingResponse:
     audio_data = get_audio_data(audio_data_name, token)
     return StreamingResponse(_audio_data_streamer(audio_data))
